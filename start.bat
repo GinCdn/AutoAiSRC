@@ -1,9 +1,9 @@
 @echo off
-rem AiSRC Windows 启动脚本
+rem AiSRC Windows launcher
 cd /d "%~dp0"
 
 if not exist config.yaml (
-    echo [start] 缺少 config.yaml，请从发行包补齐后再启动
+    echo [start] config.yaml not found. Please restore it from the release package.
     pause
     exit /b 1
 )

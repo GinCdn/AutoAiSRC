@@ -7,7 +7,7 @@ WORKDIR /app
 
 COPY aisrc ./aisrc
 COPY web ./web
-COPY config.example.yaml ./config.example.yaml
+COPY config.yaml ./config.yaml
 COPY docker-entrypoint.sh ./docker-entrypoint.sh
 
 # 兼容 Windows 解压可能带入的 CRLF 行尾

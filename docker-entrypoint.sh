@@ -1,5 +1,5 @@
 #!/bin/sh
-# AiSRC 容器入口：首次启动自动生成配置，无需手动 cp config.example.yaml
+# AiSRC 容器入口：首次启动自动持久化配置，无需手动准备 config.yaml
 set -e
 
 CONF_HOST="/app/data/config.yaml"
@@ -7,7 +7,7 @@ CONF_HOST="/app/data/config.yaml"
 mkdir -p /app/data /app/logs /app/work
 
 if [ ! -f "$CONF_HOST" ]; then
-  cp /app/config.example.yaml "$CONF_HOST"
+  cp /app/config.yaml "$CONF_HOST"
   # 数据库地址自动指向 compose 服务名 mysql
   sed -i 's/host: "127.0.0.1"/host: "mysql"/' "$CONF_HOST"
   echo "[entrypoint] 已自动生成配置 /app/data/config.yaml（mysql.host 已指向 mysql 服务）"

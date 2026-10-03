@@ -32,7 +32,7 @@ AutoAiSRC 是 AiSRC（AI 驱动的自动化漏洞挖掘平台，Go 后端 + Reac
 | `aisrc` | Linux amd64 服务端（静态编译，无依赖） |
 | `aisrc.exe` | Windows amd64 服务端 |
 | `web/` | 前端编译产物（服务端同源托管） |
-| `config.example.yaml` | 配置模板 |
+| `config.yaml` | 配置文件（自带默认值，按需修改） |
 | `start.sh` / `start.bat` | Linux / Windows 启动脚本 |
 | `Dockerfile` / `docker-compose.yml` | Docker 一键部署（含 MySQL 5.7） |
 
@@ -42,8 +42,7 @@ AutoAiSRC 是 AiSRC（AI 驱动的自动化漏洞挖掘平台，Go 后端 + Reac
 
 ```bash
 # 1. 准备 MySQL 5.7+ 数据库（库名/账号自定义，启动时自动建表）
-# 2. 生成配置
-cp config.example.yaml config.yaml
+# 2. 编辑配置（发行包自带 config.yaml）
 vi config.yaml   # 修改 mysql 连接、system.port、登录账号密码等
 
 # 3. 启动
@@ -62,13 +61,12 @@ chmod +x start.sh aisrc
 
 1. **安装 MySQL**：宝塔 → 软件商店 → 搜索 `MySQL` → 安装 5.7（或 8.0）；
 2. **建库**：数据库 → 添加数据库，数据库名 `aisrc`、用户名/密码自定，字符集选 `utf8mb4`；
-3. **上传程序**：文件 → 进入 `/www`（自建目录如 `/www/AutoAiSRC`）→ 上传发行包并解压，确认目录内有 `aisrc`、`web/`、`config.example.yaml`；
-4. **生成配置**：宝塔终端（或 SSH）执行：
+3. **上传程序**：文件 → 进入 `/www`（自建目录如 `/www/AutoAiSRC`）→ 上传发行包并解压，确认目录内有 `aisrc`、`web/`、`config.yaml`；
+4. **修改配置**：宝塔终端（或 SSH）执行：
 
    ```bash
    cd /www/AutoAiSRC
-   cp config.example.yaml config.yaml
-   vi config.yaml
+   vi config.yaml   # 发行包已自带，直接编辑
    # mysql.host 填 127.0.0.1（宝塔 MySQL 装在本机）
    # mysql.user / mysql.password 填第 2 步建的账号
    # token.username / token.password 设置登录面板的账号密码
@@ -127,7 +125,7 @@ chmod +x start.sh aisrc
 #### Windows
 
 1. 安装 MySQL 5.7+；
-2. 复制 `config.example.yaml` 为 `config.yaml`，编辑数据库连接与登录账号；
+2. 编辑 `config.yaml`（发行包自带），修改数据库连接与登录账号；
 3. 双击 `start.bat`（或命令行运行 `aisrc.exe`）；
 4. 浏览器访问 `http://127.0.0.1:8080` 登录。
 
@@ -136,7 +134,7 @@ chmod +x start.sh aisrc
 | 项 | 值 |
 |---|---|
 | 账号 | `admin`（`config.yaml` 未配置 `token.username` 时的默认值） |
-| 密码 | `123456`（模板默认值，见 `config.example.yaml` 的 `token.password`） |
+| 密码 | `123456`（默认值，见 `config.yaml` 的 `token.password`） |
 
 > ⚠️ **安全警告**：默认密码为弱口令，公网部署**务必尽快修改**——登录账号/密码在 **`config.yaml`** 中修改（`token.username` / `token.password`，改后重启服务生效；Docker 部署编辑宿主机 `./data/config.yaml` 后 `docker compose restart aisrc`），系统设置中不提供登录口令修改。同时请更换 `token.secret` 为不少于 32 位的随机串——该密钥用于签发登录令牌，使用公开默认值等于 anyone 可伪造登录态。
 
@@ -196,7 +194,7 @@ AutoAiSRC is the **pre-built distribution** of AiSRC — an AI-driven automated 
 | `aisrc` | Linux amd64 server (statically built, zero dependencies) |
 | `aisrc.exe` | Windows amd64 server |
 | `web/` | Frontend build output (served by the backend) |
-| `config.example.yaml` | Configuration template |
+| `config.yaml` | Configuration file (ships with safe defaults, edit as needed) |
 | `start.sh` / `start.bat` | Linux / Windows launcher scripts |
 | `Dockerfile` / `docker-compose.yml` | One-command Docker deployment (MySQL 5.7 included) |
 
@@ -206,8 +204,7 @@ AutoAiSRC is the **pre-built distribution** of AiSRC — an AI-driven automated 
 
 ```bash
 # 1. Prepare a MySQL 5.7+ database (schema auto-migrates on first start)
-# 2. Create the config
-cp config.example.yaml config.yaml
+# 2. Edit the config (config.yaml is bundled with the package)
 vi config.yaml   # set MySQL connection, listen port, login credentials, etc.
 
 # 3. Start
@@ -224,13 +221,13 @@ chmod +x start.sh aisrc
 
 For users in China who prefer a web-based server panel, step-by-step tutorials for **宝塔面板 (BT Panel)** and **1Panel** are provided in the Chinese section above (「Linux · 宝塔面板安装」 / 「Linux · 1Panel 安装」). In short:
 
-- **BT Panel**: install MySQL from the App Store, create the `aisrc` database (utf8mb4), upload the package to `/www/AutoAiSRC`, generate `config.yaml`, then keep the binary alive with the Supervisor add-on and open port 8080;
+- **BT Panel**: install MySQL from the App Store, create the `aisrc` database (utf8mb4), upload the package to `/www/AutoAiSRC`, edit the bundled `config.yaml`, then keep the binary alive with the Supervisor add-on and open port 8080;
 - **1Panel (Docker-based)**: Option A — deploy the bundled `docker-compose.yml` via Container → Orchestration (config is auto-generated on first start); Option B — run the binary under systemd and reverse-proxy it through the website module.
 
 #### Windows
 
 1. Install MySQL 5.7+;
-2. Copy `config.example.yaml` to `config.yaml` and edit the database settings and login credentials;
+2. Edit the bundled `config.yaml` and update the database settings and login credentials;
 3. Double-click `start.bat` (or run `aisrc.exe` from a terminal);
 4. Visit `http://127.0.0.1:8080` and log in.
 
@@ -239,7 +236,7 @@ For users in China who prefer a web-based server panel, step-by-step tutorials f
 | Item | Value |
 |---|---|
 | Username | `admin` (fallback when `token.username` is not set in `config.yaml`) |
-| Password | `123456` (template default, see `token.password` in `config.example.yaml`) |
+| Password | `123456` (default, see `token.password` in `config.yaml`) |
 
 > ⚠️ **Security warning**: the default password is weak. On any public deployment **change it as soon as possible** — the login username/password is configured in **`config.yaml`** (`token.username` / `token.password`; restart the service to apply; for Docker deployments edit `./data/config.yaml` on the host and run `docker compose restart aisrc`). There is no login-password change in the web UI. Also replace `token.secret` with a random string of at least 32 characters — this key signs the login tokens; leaving the public default means anyone can forge a session.
 

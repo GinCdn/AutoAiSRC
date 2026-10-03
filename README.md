@@ -90,19 +90,11 @@ chmod +x start.sh aisrc
 
 **方式 A：容器编排（推荐，与 docker-compose 安装等效）**
 
-1. 文件 → 上传发行包到 `/opt/AutoAiSRC` 并解压；
-2. 生成配置：
-
-   ```bash
-   cd /opt/AutoAiSRC
-   cp config.example.yaml config.yaml
-   vi config.yaml
-   # 关键：mysql.host 改为 mysql（编排内服务名），其余同上
-   ```
-
-3. 容器 → 编排 → 创建编排 → 选择 `/opt/AutoAiSRC` 目录（自动识别 `docker-compose.yml`）→ 确认启动；
-4. 容器页确认 `aisrc-mysql` 与 `aisrc-server` 均为运行中，日志无报错；
-5. 主机 → 防火墙 → 放行 `8080`（云安全组同步放行）→ 访问 `http://服务器IP:8080`。
+1. 文件 → 上传发行包到 `/opt/AutoAiSRC` 并解压（**无需手动生成 config.yaml**，容器首启自动创建）；
+2. 容器 → 编排 → 创建编排 → 选择 `/opt/AutoAiSRC` 目录（自动识别 `docker-compose.yml`）→ 确认启动；
+3. 容器页确认 `aisrc-mysql` 与 `aisrc-server` 均为运行中，日志无报错；
+4. 主机 → 防火墙 → 放行 `8080`（云安全组同步放行）→ 访问 `http://服务器IP:8080`；
+5. 如需改配置：编辑 `/opt/AutoAiSRC/data/config.yaml` 后重启 `aisrc-server` 容器。
 
 **方式 B：二进制 + systemd（不用容器跑应用）**
 
@@ -154,21 +146,21 @@ chmod +x start.sh aisrc
 
 ### 方式二：Docker 自动安装（推荐）
 
-```bash
-# 1. 准备配置
-cp config.example.yaml config.yaml
-vi config.yaml
-# 关键一步：把 mysql.host 从 127.0.0.1 改为 mysql（compose 服务名）
+真正的一条命令全自动：自动拉取 MySQL 5.7 镜像 → 自动构建应用镜像 → **自动生成配置**（数据库地址自动指向 mysql 服务）→ 等数据库健康检查通过 → 自动建库启动。
 
-# 2. 一键启动（自动拉起 MySQL 5.7 + 应用）
+```bash
+# 解压发行包后进入目录，直接：
 docker compose up -d
 
-# 3. 查看日志 / 访问
+# 首次构建拉镜像需要几分钟，可跟踪进度：
 docker compose logs -f aisrc
-# http://服务器IP:8080
+# 看到「已自动生成配置」与正常启动日志即成功
+# http://服务器IP:8080 （admin / 123456）
 ```
 
-docker-compose 已包含：MySQL 5.7（utf8mb4）+ 健康检查 + 数据卷持久化（`mysql_data`、`data/`、`logs/`、`work/`）。
+无需手动准备 `config.yaml`：容器首次启动自动生成到 `./data/config.yaml`（已通过数据卷持久化到宿主机）。如需自定义（登录密码、`token.secret` 等），编辑宿主机 `./data/config.yaml` 后 `docker compose restart aisrc` 即可生效。
+
+docker-compose 已包含：MySQL 5.7（utf8mb4）+ 健康检查（应用等库就绪后才启动）+ 数据卷持久化（`mysql_data`、`data/`、`logs/`、`work/`）。
 
 ### 系统要求
 
@@ -233,7 +225,7 @@ chmod +x start.sh aisrc
 For users in China who prefer a web-based server panel, step-by-step tutorials for **宝塔面板 (BT Panel)** and **1Panel** are provided in the Chinese section above (「Linux · 宝塔面板安装」 / 「Linux · 1Panel 安装」). In short:
 
 - **BT Panel**: install MySQL from the App Store, create the `aisrc` database (utf8mb4), upload the package to `/www/AutoAiSRC`, generate `config.yaml`, then keep the binary alive with the Supervisor add-on and open port 8080;
-- **1Panel (Docker-based)**: Option A — deploy the bundled `docker-compose.yml` via Container → Orchestration (set `mysql.host` to `mysql`); Option B — run the binary under systemd and reverse-proxy it through the website module.
+- **1Panel (Docker-based)**: Option A — deploy the bundled `docker-compose.yml` via Container → Orchestration (config is auto-generated on first start); Option B — run the binary under systemd and reverse-proxy it through the website module.
 
 #### Windows
 
@@ -257,21 +249,21 @@ Configure LLM endpoints under **Settings → Model Config** (OpenAI-compatible; 
 
 ### Option 2: Docker (Recommended)
 
-```bash
-# 1. Prepare the config
-cp config.example.yaml config.yaml
-vi config.yaml
-# Important: change mysql.host from 127.0.0.1 to mysql (the compose service name)
+Fully automated with a single command: pulls the MySQL 5.7 image → builds the app image → **auto-generates the config** (database host points to the `mysql` service automatically) → waits for the database health check → starts.
 
-# 2. Start everything (MySQL 5.7 + app)
+```bash
+# Enter the extracted package directory, then simply:
 docker compose up -d
 
-# 3. Logs / access
+# First build/pull takes a few minutes; follow progress with:
 docker compose logs -f aisrc
-# http://server-ip:8080
+# Success looks like: config auto-generated + normal startup logs
+# http://server-ip:8080 (admin / 123456)
 ```
 
-The compose file includes MySQL 5.7 (utf8mb4) with health checks and persistent volumes (`mysql_data`, `data/`, `logs/`, `work/`).
+No need to prepare `config.yaml` manually: it is auto-generated at `./data/config.yaml` on first start (persisted to the host via the data volume). To customize (login password, `token.secret`, etc.), edit `./data/config.yaml` on the host and run `docker compose restart aisrc`.
+
+The compose file includes MySQL 5.7 (utf8mb4) with health checks (the app starts only after the database is ready) and persistent volumes (`mysql_data`, `data/`, `logs/`, `work/`).
 
 ### Requirements
 

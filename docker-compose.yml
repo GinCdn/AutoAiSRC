@@ -27,8 +27,7 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      # 首次使用：cp config.example.yaml config.yaml 并将 mysql.host 改为 mysql
-      - ./config.yaml:/app/config.yaml
+      # 无需手动准备 config.yaml：首次启动自动生成到 ./data/config.yaml（宿主机可持久化编辑）
       - ./data:/app/data
       - ./logs:/app/logs
       - ./work:/app/work

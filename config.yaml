@@ -38,8 +38,8 @@ mysql:
 # 令牌配置
 token:
   header: "Bearer"
-  # ⚠️ 首次部署务必把下面 secret 替换为不少于 32 位的随机串（默认值公开，不改等于任何人可伪造登录态）
-  secret: "请替换为不少于32位的令牌签名密钥-aisrc-2026"
+  # ⚠️ 默认 secret 公开可见，公网部署务必替换为不少于 32 位的随机串（改后重启生效）
+  secret: "aisrc-default-token-secret-change-me-32chars-min"
   expireTime: 24        # 令牌有效期（小时）
   issuer: "aisrc"
   # 登录账号：与下面 password 双重匹配才能登录面板

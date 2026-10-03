@@ -1,0 +1,37 @@
+services:
+  mysql:
+    image: mysql:5.7
+    container_name: aisrc-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: aisrc_root_520
+      MYSQL_DATABASE: aisrc
+      MYSQL_USER: aisrc
+      MYSQL_PASSWORD: "aisrc520"
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_general_ci
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uaisrc", "-paisrc520"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  aisrc:
+    build: .
+    container_name: aisrc-server
+    restart: unless-stopped
+    depends_on:
+      mysql:
+        condition: service_healthy
+    ports:
+      - "8080:8080"
+    volumes:
+      # 首次使用：cp config.example.yaml config.yaml 并将 mysql.host 改为 mysql
+      - ./config.yaml:/app/config.yaml
+      - ./data:/app/data
+      - ./logs:/app/logs
+      - ./work:/app/work
+
+volumes:
+  mysql_data:

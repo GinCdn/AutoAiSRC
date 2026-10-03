@@ -1,0 +1,92 @@
+# ============================================================
+# AiSRC 配置文件模板
+# 使用方式：cp config.example.yaml config.yaml 后按需修改
+# config.yaml 含数据库密码与令牌密钥，已被 .gitignore 排除
+# ============================================================
+
+# 系统配置
+system:
+  host: "0.0.0.0"
+  port: 8080
+  env: release          # debug / release / test
+  # 前端构建产物目录（Vite dist）。留空默认 ./web/dist，与原版 AutoHunter 一致。
+  web_dir: "./web/dist"
+
+# 日志配置
+logger:
+  level: "info"
+  path: "./logs/log"
+  show_line: true
+  color: true
+  max_size: 200
+  max_age: 30
+  max_backups: 7
+  compress: true
+  service_name: "aisrc-api"
+  console: true
+
+# MySQL 配置（本地库：用户 / 密码 / 库名 均为 aisrc）
+mysql:
+  host: "127.0.0.1"
+  port: 3306
+  username: "aisrc"
+  password: "aisrc"
+  database: "aisrc"
+  charset: "utf8mb4"
+  maxIdle: 20
+  maxOpen: 100
+
+# 令牌配置
+token:
+  header: "Bearer"
+  secret: "请替换为不少于32位的令牌签名密钥-aisrc-2026"
+  expireTime: 24        # 令牌有效期（小时）
+  issuer: "aisrc"
+  # 登录口令：前端首次访问需输入，至少 8 位；留空则关闭鉴权（不推荐）
+  password: "请设置登录口令"
+  # 全权限静态令牌：对应原版 AutoHunter 的 AUTOHUNTER_API_TOKEN。
+  # 设置后可直接用该值访问（便于脚本/原版前端），无需先登录换 JWT（可选）
+  fullToken: ""
+  # 只读令牌：可看不可写（可选）
+  readToken: ""
+  # 观摩令牌：仅可看任务概览，敏感信息打码（可选）
+  observerToken: ""
+  # CORS 允许来源白名单（留空则仅允许同源）
+  allowOrigins: []
+
+# 全局默认模型配置（任务级可覆盖）
+llm:
+  mode: single
+  base_url: "https://api.deepseek.com/v1"
+  api_key: ""
+  model: "deepseek-chat"
+  protocol: "auto"      # auto / openai_chat / anthropic_messages
+  temperature: 0.3
+
+# 默认搜索引擎（测绘）
+engine:
+  default: "fofa"
+  base_url: "https://fofa.info"
+  key: ""
+  max_pages: 20
+  page_size: 100
+  intent_mode: ""       # "" 自动判断 / syntax 查询语法 / intent 自然语言意图
+
+# 数据目录
+data:
+  work_root: "./work"           # worker 运行工作目录
+  backup_dir: "./backups"       # 备份目录
+  wallpaper_dir: "./data"       # 界面壁纸存放目录
+  retention_days: 7             # 工作目录保留天数
+  auto_backup: true
+  backup_interval_hours: 24
+  backup_keep: 7
+  work_max_bytes: 536870912     # 512MB
+
+# 在线更新（基于 git）
+update:
+  enabled: true
+  repo_root: "."                # 项目根目录（含 .git）
+  branch: "main"
+  releases_url: "https://github.com/GinCdn/AiSRC"
+  # token: ""                    # 私有仓库需配置 GitHub 令牌

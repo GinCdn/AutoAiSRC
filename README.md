@@ -34,7 +34,7 @@ AutoAiSRC 是 AiSRC（AI 驱动的自动化漏洞挖掘平台，Go 后端 + Reac
 | `web/` | 前端编译产物（服务端同源托管） |
 | `config.yaml` | 配置文件（自带默认值，按需修改） |
 | `start.sh` / `start.bat` | Linux / Windows 启动脚本 |
-| `Dockerfile` / `docker-compose.yml` | Docker 一键部署（含 MySQL 5.7） |
+| `Dockerfile` / `docker-compose.yml` / `docker-entrypoint.sh` | Docker 一键部署（含 MySQL 5.7，仅 Linux 包附带；Windows 部署用 `start.bat`） |
 
 ### 方式一：手动安装
 
@@ -196,7 +196,7 @@ AutoAiSRC is the **pre-built distribution** of AiSRC — an AI-driven automated 
 | `web/` | Frontend build output (served by the backend) |
 | `config.yaml` | Configuration file (ships with safe defaults, edit as needed) |
 | `start.sh` / `start.bat` | Linux / Windows launcher scripts |
-| `Dockerfile` / `docker-compose.yml` | One-command Docker deployment (MySQL 5.7 included) |
+| `Dockerfile` / `docker-compose.yml` / `docker-entrypoint.sh` | One-command Docker deployment (MySQL 5.7 included, **Linux package only**; on Windows use `start.bat`) |
 
 ### Option 1: Manual Installation
 

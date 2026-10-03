@@ -8,8 +8,8 @@ system:
   host: "0.0.0.0"
   port: 8080
   env: release          # debug / release / test
-  # 前端构建产物目录（Vite dist）。留空默认 ./web/dist，与原版 AutoHunter 一致。
-  web_dir: "./web/dist"
+  # 前端构建产物目录（发行包把 dist 内容直接铺在 web/ 下）。留空默认 ./web/dist。
+  web_dir: "./web"
 
 # 日志配置
 logger:

@@ -137,6 +137,15 @@ chmod +x start.sh aisrc
 3. 双击 `start.bat`（或命令行运行 `aisrc.exe`）；
 4. 浏览器访问 `http://127.0.0.1:8080` 登录。
 
+#### 默认管理员账号
+
+| 项 | 值 |
+|---|---|
+| 账号 | `admin`（`config.yaml` 未配置 `token.username` 时的默认值） |
+| 密码 | `123456`（模板默认值，见 `config.example.yaml` 的 `token.password`） |
+
+> ⚠️ **安全警告**：默认密码为弱口令，公网部署**务必在首次登录后立即修改**（系统设置中修改），并同时更换 `token.secret` 为不少于 32 位的随机串——该密钥用于签发登录令牌，使用公开默认值等于 anyone 可伪造登录态。
+
 #### 登录后必做配置
 
 进入「系统设置 → 模型配置」配置 LLM 端点（OpenAI 兼容协议，可组端点池）。**推荐使用稳定 AI 中转：[ai.gincdn.cc](https://ai.gincdn.cc)**。测绘引擎（Fofa / Hunter / Quake）的 API Key 在「系统设置 → 资产测绘」中填写。
@@ -228,6 +237,15 @@ For users in China who prefer a web-based server panel, step-by-step tutorials f
 2. Copy `config.example.yaml` to `config.yaml` and edit the database settings and login credentials;
 3. Double-click `start.bat` (or run `aisrc.exe` from a terminal);
 4. Visit `http://127.0.0.1:8080` and log in.
+
+#### Default Administrator Account
+
+| Item | Value |
+|---|---|
+| Username | `admin` (fallback when `token.username` is not set in `config.yaml`) |
+| Password | `123456` (template default, see `token.password` in `config.example.yaml`) |
+
+> ⚠️ **Security warning**: the default password is weak. On any public deployment **change it immediately after the first login** (via System Settings), and replace `token.secret` with a random string of at least 32 characters — this key signs the login tokens; leaving the public default means anyone can forge a session.
 
 #### Post-login setup
 

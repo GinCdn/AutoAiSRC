@@ -42,8 +42,8 @@ token:
   secret: "请替换为不少于32位的令牌签名密钥-aisrc-2026"
   expireTime: 24        # 令牌有效期（小时）
   issuer: "aisrc"
-  # 登录口令：前端首次访问需输入，至少 8 位；留空则关闭鉴权（不推荐）
-  password: "请设置登录口令"
+  # 登录口令：前端登录凭据（账号未配置时默认 admin）；留空则关闭鉴权（不推荐）
+  password: "123456"          # 默认管理员密码（配合默认账号 admin），首次登录后请立即修改
   # 全权限静态令牌：对应原版 AutoHunter 的 AUTOHUNTER_API_TOKEN。
   # 设置后可直接用该值访问（便于脚本/原版前端），无需先登录换 JWT（可选）
   fullToken: ""

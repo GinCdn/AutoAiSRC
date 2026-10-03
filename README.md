@@ -138,7 +138,7 @@ chmod +x start.sh aisrc
 | 账号 | `admin`（`config.yaml` 未配置 `token.username` 时的默认值） |
 | 密码 | `123456`（模板默认值，见 `config.example.yaml` 的 `token.password`） |
 
-> ⚠️ **安全警告**：默认密码为弱口令，公网部署**务必在首次登录后立即修改**（系统设置中修改），并同时更换 `token.secret` 为不少于 32 位的随机串——该密钥用于签发登录令牌，使用公开默认值等于 anyone 可伪造登录态。
+> ⚠️ **安全警告**：默认密码为弱口令，公网部署**务必尽快修改**——登录账号/密码在 **`config.yaml`** 中修改（`token.username` / `token.password`，改后重启服务生效；Docker 部署编辑宿主机 `./data/config.yaml` 后 `docker compose restart aisrc`），系统设置中不提供登录口令修改。同时请更换 `token.secret` 为不少于 32 位的随机串——该密钥用于签发登录令牌，使用公开默认值等于 anyone 可伪造登录态。
 
 #### 登录后必做配置
 
@@ -241,7 +241,7 @@ For users in China who prefer a web-based server panel, step-by-step tutorials f
 | Username | `admin` (fallback when `token.username` is not set in `config.yaml`) |
 | Password | `123456` (template default, see `token.password` in `config.example.yaml`) |
 
-> ⚠️ **Security warning**: the default password is weak. On any public deployment **change it immediately after the first login** (via System Settings), and replace `token.secret` with a random string of at least 32 characters — this key signs the login tokens; leaving the public default means anyone can forge a session.
+> ⚠️ **Security warning**: the default password is weak. On any public deployment **change it as soon as possible** — the login username/password is configured in **`config.yaml`** (`token.username` / `token.password`; restart the service to apply; for Docker deployments edit `./data/config.yaml` on the host and run `docker compose restart aisrc`). There is no login-password change in the web UI. Also replace `token.secret` with a random string of at least 32 characters — this key signs the login tokens; leaving the public default means anyone can forge a session.
 
 #### Post-login setup
 

@@ -23,6 +23,8 @@
 
 AutoAiSRC 是 AiSRC（AI 驱动的自动化漏洞挖掘平台，Go 后端 + React18/antd6 前端）的**编译发行版**，无需安装 Go 与 Node 环境，解压即用。系统以 LLM Agent 为核心调度渗透测试流程：资产测绘收集目标 → Worker 智能体自主探测、验证、提交漏洞 → Reviewer 智能体按 3-Gate 证据链审核入库。
 
+> **下载**：请到 [Releases](https://github.com/GinCdn/AutoAiSRC/releases) 下载对应平台的压缩包（`AutoAiSRC-vX.Y.Z-linux-amd64.tar.gz` / `AutoAiSRC-vX.Y.Z-windows-amd64.zip`），解压即得下表全部文件；Release 页同时提供裸二进制 `aisrc` / `aisrc.exe` 供脚本化部署。
+
 ### 包内容
 
 | 文件 | 说明 |
@@ -192,6 +194,8 @@ docker-compose 已包含：MySQL 5.7（utf8mb4）+ 健康检查 + 数据卷持�
 ## English
 
 AutoAiSRC is the **pre-built distribution** of AiSRC — an AI-driven automated vulnerability discovery platform (Go backend + React18/antd6 frontend). No Go/Node toolchain required: unpack and run. LLM agents orchestrate the whole workflow: asset mapping collects targets → Worker agents probe, verify and submit findings → a Reviewer agent validates each finding through a 3-Gate evidence chain.
+
+> **Download**: grab the archive for your platform from the [Releases](https://github.com/GinCdn/AutoAiSRC/releases) page (`AutoAiSRC-vX.Y.Z-linux-amd64.tar.gz` / `AutoAiSRC-vX.Y.Z-windows-amd64.zip`); extracting it yields all files listed below. Bare binaries (`aisrc` / `aisrc.exe`) are also attached for scripted deployments.
 
 ### Package Contents
 

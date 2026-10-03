@@ -142,7 +142,7 @@ chmod +x start.sh aisrc
 
 #### 登录后必做配置
 
-进入「系统设置 → 模型配置」配置 LLM 端点（OpenAI 兼容协议，可组端点池）。**推荐使用稳定 AI 中转：[ai.gincdn.cc](https://ai.gincdn.cc)**。测绘引擎（Fofa / Hunter / Quake）的 API Key 在「系统设置 → 资产测绘」中填写。
+进入「系统设置 → 模型配置」配置 LLM 端点（OpenAI 兼容协议，可组端点池）。**推荐使用稳定公益 AI 中转：[ai.gincdn.cc](https://ai.gincdn.cc)**。测绘引擎（Fofa / Hunter / Quake）的 API Key 在「系统设置 → 资产测绘」中填写。
 
 ### 方式二：Docker 自动安装（推荐）
 
@@ -175,7 +175,7 @@ docker-compose 已包含：MySQL 5.7（utf8mb4）+ 健康检查（应用等库�
 ### 推荐服务商
 
 - **云服务器**：[贝海云](https://www.beihaiyun.com)（www.beihaiyun.com）—— 稳定可靠的云服务器与网络服务，推荐用于部署本系统；
-- **AI 中转**：[ai.gincdn.cc](https://ai.gincdn.cc) —— 稳定 AI 中转，OpenAI 兼容协议直连，配置为 LLM 端点即可使用。
+- **公益 AI 中转**：[ai.gincdn.cc](https://ai.gincdn.cc) —— 稳定公益 AI 中转，OpenAI 兼容协议直连，配置为 LLM 端点即可使用。
 
 ### 源码
 
@@ -245,7 +245,7 @@ For users in China who prefer a web-based server panel, step-by-step tutorials f
 
 #### Post-login setup
 
-Configure LLM endpoints under **Settings → Model Config** (OpenAI-compatible; an endpoint pool is supported). **Recommended stable AI relay: [ai.gincdn.cc](https://ai.gincdn.cc)**. Asset-mapping engine keys (Fofa / Hunter / Quake) go under **Settings → Asset Mapping**.
+Configure LLM endpoints under **Settings → Model Config** (OpenAI-compatible; an endpoint pool is supported). **Recommended free public AI relay: [ai.gincdn.cc](https://ai.gincdn.cc)**. Asset-mapping engine keys (Fofa / Hunter / Quake) go under **Settings → Asset Mapping**.
 
 ### Option 2: Docker (Recommended)
 
@@ -278,7 +278,7 @@ The compose file includes MySQL 5.7 (utf8mb4) with health checks (the app starts
 ### Recommended Providers
 
 - **Cloud servers**: [BeiHai Cloud](https://www.beihaiyun.com) (www.beihaiyun.com) — reliable cloud infrastructure, recommended for deploying AutoAiSRC;
-- **AI relay**: [ai.gincdn.cc](https://ai.gincdn.cc) — stable OpenAI-compatible LLM relay; configure it directly as your LLM endpoint.
+- **Free public AI relay**: [ai.gincdn.cc](https://ai.gincdn.cc) — stable, community-run OpenAI-compatible LLM relay; configure it directly as your LLM endpoint.
 
 ### Source Code
 

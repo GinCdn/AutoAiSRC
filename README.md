@@ -174,7 +174,7 @@ docker-compose 已包含：MySQL 5.7（utf8mb4）+ 健康检查（应用等库�
 
 ### 推荐服务商
 
-- **云服务器**：[贝海云](https://www.beihaiyun.com)（www.beihaiyun.com）—— 稳定可靠的云服务器与网络服务，推荐用于部署本系统；
+- **云服务器**：[贝海云（www.beihaiyun.com）](https://www.beihaiyun.com)—— 稳定可靠的云服务器与网络服务，推荐用于部署本系统；
 - **公益 AI 中转**：[ai.gincdn.cc](https://ai.gincdn.cc) —— 稳定公益 AI 中转，OpenAI 兼容协议直连，配置为 LLM 端点即可使用。
 
 ### 源码
@@ -277,7 +277,7 @@ The compose file includes MySQL 5.7 (utf8mb4) with health checks (the app starts
 
 ### Recommended Providers
 
-- **Cloud servers**: [BeiHai Cloud](https://www.beihaiyun.com) (www.beihaiyun.com) — reliable cloud infrastructure, recommended for deploying AutoAiSRC;
+- **Cloud servers**: [BeiHai Cloud (www.beihaiyun.com)](https://www.beihaiyun.com) — reliable cloud infrastructure, recommended for deploying AutoAiSRC;
 - **Free public AI relay**: [ai.gincdn.cc](https://ai.gincdn.cc) — stable, community-run OpenAI-compatible LLM relay; configure it directly as your LLM endpoint.
 
 ### Source Code

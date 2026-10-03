@@ -88,5 +88,5 @@ update:
   enabled: true
   repo_root: "."                # 项目根目录（含 .git）
   branch: "main"
-  releases_url: "https://github.com/GinCdn/AiSRC"
+  releases_url: "https://github.com/GinCdn/AutoAiSRC"
   # token: ""                    # 私有仓库需配置 GitHub 令牌

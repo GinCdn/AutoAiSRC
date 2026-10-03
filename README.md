@@ -54,6 +54,82 @@ chmod +x start.sh aisrc
 
 > 建议：生产环境用 systemd 托管，`ExecStart=/opt/AutoAiSRC/aisrc`，`WorkingDirectory=/opt/AutoAiSRC`。
 
+#### Linux · 宝塔面板安装
+
+前提：已安装宝塔面板（[bt.cn](https://www.bt.cn)）。
+
+1. **安装 MySQL**：宝塔 → 软件商店 → 搜索 `MySQL` → 安装 5.7（或 8.0）；
+2. **建库**：数据库 → 添加数据库，数据库名 `aisrc`、用户名/密码自定，字符集选 `utf8mb4`；
+3. **上传程序**：文件 → 进入 `/www`（自建目录如 `/www/AutoAiSRC`）→ 上传发行包并解压，确认目录内有 `aisrc`、`web/`、`config.example.yaml`；
+4. **生成配置**：宝塔终端（或 SSH）执行：
+
+   ```bash
+   cd /www/AutoAiSRC
+   cp config.example.yaml config.yaml
+   vi config.yaml
+   # mysql.host 填 127.0.0.1（宝塔 MySQL 装在本机）
+   # mysql.user / mysql.password 填第 2 步建的账号
+   # token.username / token.password 设置登录面板的账号密码
+   chmod +x aisrc start.sh
+   ```
+
+5. **进程守护**：软件商店 → 安装 `进程守护管理器（Supervisor）` → 添加守护进程：
+   - 名称：`AutoAiSRC`
+   - 启动命令：`/www/AutoAiSRC/aisrc`
+   - 运行目录：`/www/AutoAiSRC`
+   - 启动后确保状态为 `RUNNING`，日志无报错；
+6. **放行端口**：安全 → 放行端口 `8080`（同时在云服务商安全组放行）；
+7. **访问**：浏览器 `http://服务器IP:8080` 登录；
+8. **可选 · 域名与 HTTPS**：网站 → 添加站点（绑定域名，无需 PHP）→ 设置 → 反向代理 → 目标 `http://127.0.0.1:8080` → 再用「SSL」签发 Let's Encrypt 证书。
+
+#### Linux · 1Panel 安装
+
+前提：已安装 1Panel（[1panel.cn](https://www.1panel.cn)，docker 架构）。
+
+**方式 A：容器编排（推荐，与 docker-compose 安装等效）**
+
+1. 文件 → 上传发行包到 `/opt/AutoAiSRC` 并解压；
+2. 生成配置：
+
+   ```bash
+   cd /opt/AutoAiSRC
+   cp config.example.yaml config.yaml
+   vi config.yaml
+   # 关键：mysql.host 改为 mysql（编排内服务名），其余同上
+   ```
+
+3. 容器 → 编排 → 创建编排 → 选择 `/opt/AutoAiSRC` 目录（自动识别 `docker-compose.yml`）→ 确认启动；
+4. 容器页确认 `aisrc-mysql` 与 `aisrc-server` 均为运行中，日志无报错；
+5. 主机 → 防火墙 → 放行 `8080`（云安全组同步放行）→ 访问 `http://服务器IP:8080`。
+
+**方式 B：二进制 + systemd（不用容器跑应用）**
+
+1. 应用商店 → 安装 `MySQL 5.7`（1Panel 会映射 3306 到宿主机）→ 数据库页创建 `aisrc` 库（utf8mb4）；
+2. 文件 → 上传发行包到 `/opt/AutoAiSRC` 解压，按上文修改 `config.yaml`（mysql.host 填 `127.0.0.1`）；
+3. 主机 → 终端执行：
+
+   ```bash
+   chmod +x /opt/AutoAiSRC/aisrc
+   cat > /etc/systemd/system/autuaisrc.service <<'EOF'
+   [Unit]
+   Description=AutoAiSRC Server
+   After=network.target
+
+   [Service]
+   WorkingDirectory=/opt/AutoAiSRC
+   ExecStart=/opt/AutoAiSRC/aisrc
+   Restart=always
+   RestartSec=5
+
+   [Install]
+   WantedBy=multi-user.target
+   EOF
+   systemctl daemon-reload && systemctl enable --now autuaisrc
+   systemctl status autuaisrc   # 确认 active (running)
+   ```
+
+4. 主机 → 防火墙放行 `8080`；网站 → 创建网站（静态）→ 反向代理 `http://127.0.0.1:8080` 可挂域名与 HTTPS。
+
 #### Windows
 
 1. 安装 MySQL 5.7+；
@@ -138,6 +214,13 @@ chmod +x start.sh aisrc
 ```
 
 > Tip: for production, run it under systemd with `WorkingDirectory` set to the package directory.
+
+#### Linux · Server Management Panels (BT Panel / 1Panel)
+
+For users in China who prefer a web-based server panel, step-by-step tutorials for **宝塔面板 (BT Panel)** and **1Panel** are provided in the Chinese section above (「Linux · 宝塔面板安装」 / 「Linux · 1Panel 安装」). In short:
+
+- **BT Panel**: install MySQL from the App Store, create the `aisrc` database (utf8mb4), upload the package to `/www/AutoAiSRC`, generate `config.yaml`, then keep the binary alive with the Supervisor add-on and open port 8080;
+- **1Panel (Docker-based)**: Option A — deploy the bundled `docker-compose.yml` via Container → Orchestration (set `mysql.host` to `mysql`); Option B — run the binary under systemd and reverse-proxy it through the website module.
 
 #### Windows
 

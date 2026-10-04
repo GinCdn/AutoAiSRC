@@ -7,3 +7,6 @@ work/
 
 # 前端源码与依赖（本仓库只分发编译产物）
 web/node_modules/
+
+# 本地打包产物
+release/

@@ -91,4 +91,5 @@ update:
   repo_root: "."                # 项目根目录（含 .git）
   branch: "main"
   releases_url: "https://github.com/GinCdn/AutoAiSRC"
+  # proxy: ""                     # 访问 GitHub 的代理：留空跟随系统；direct 强制直连；也可填 http://127.0.0.1:7890
   # token: ""                    # 私有仓库需配置 GitHub 令牌
